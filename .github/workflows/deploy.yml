@@ -10,8 +10,11 @@ jobs:
                   ref: develop
             - uses: actions/setup-node@v1
               with:
-                node-version: '12'
-            - run: echo "Running npm install"
+                node-version: '16'
+            - run: |
+                echo "Running npm install"
+                node --version
+                npm --version
             - run: npm install
             - run: npm run build
             - name: Deploy to Server
