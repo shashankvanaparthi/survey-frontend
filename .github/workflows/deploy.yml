@@ -1,9 +1,5 @@
 name: DEPLOY TO STAGING
-on:
-    pull_request:
-        types : [closed]
-        branches:
-            - develop
+on: [workflow_dispatch]
 
 jobs:
     aws-deploy:
