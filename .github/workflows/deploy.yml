@@ -1,3 +1,4 @@
+name: DEPLOY TO STAGING
 on:
     pull_request:
         types : [closed]
@@ -12,6 +13,7 @@ jobs:
               with:
                   ref: develop
             - uses: actions/setup-node@v1
+            - run: echo "Running npm install"
             - run: npm install
             - run: npm run build
             - name: Deploy to Server
