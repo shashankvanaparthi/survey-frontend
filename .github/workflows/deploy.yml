@@ -9,6 +9,8 @@ jobs:
               with:
                   ref: develop
             - uses: actions/setup-node@v1
+              with:
+                node-version: '12'
             - run: echo "Running npm install"
             - run: npm install
             - run: npm run build
