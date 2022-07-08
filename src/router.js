@@ -1,33 +1,40 @@
 import { createWebHistory, createRouter } from "vue-router";
-const Profile = () => import("./components/Profile.vue")
+import { isUsersLogged } from "./services/UserAuthenticationService";
 const routes = [
   {
     path: "/",
     name: "home",
-    component: () => import("./components/Home.vue")
+    component: () => import("./views/Home.vue")
   },
   {
     path:"/login",
     name: "login",
-    component: () => import("./components/Login.vue")
+    component: () => import("./views/Login.vue")
   },
   {
-    path:"/signup",
-    name:"signup",
-    component: () => import("./components/Register.vue")
+    path:"/createUser",
+    name:"createuser",
+    component: () => import("./views/CreateUser.vue")
   },
   {
     path: "/profile",
     name: "profile",
-    // lazy-loaded
-    component: Profile,
+    component: () => import("./views/Profile.vue"),
   }
 ];
 const router = createRouter({
-  base: process.env.NODE_ENV === 'development' ? '/' : '/survey-frontend/',
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
+
+router.beforeEach((to, from) => {
+  console.log(to.name);
+  if (isUsersLogged() && (to.name == "home" || to.name == "login")) {
+    console.log("redirecting")
+    return "/profile"; 
+  }
+  return true
+})
 
 
 export default router;
