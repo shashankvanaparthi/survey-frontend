@@ -94,7 +94,8 @@ export default {
             console.log("In handle Signup ", user);
             UserDataService.signup(user).then(res => {
                 console.log(res);
-                this.$router.push({ name: "/signup" })
+                this.loading=false;
+                this.$router.push({name:"home"})
             }, error => {
                 this.message = error.response.data.msg;
                 this.loading = false;
