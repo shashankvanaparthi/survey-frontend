@@ -7,3 +7,10 @@ export const isUsersLogged = () => {
         return false;
     }
 }
+
+export const isAdmin = ()=>{
+    console.log("IsAdmin called")
+    let isAdmin = localStorage.isAdmin;
+    console.log(isAdmin=='true')
+    return isAdmin == 'true'
+}

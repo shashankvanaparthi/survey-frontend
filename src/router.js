@@ -12,14 +12,25 @@ const routes = [
     component: () => import("./views/Login.vue")
   },
   {
-    path:"/createUser",
-    name:"createuser",
-    component: () => import("./views/CreateUser.vue")
+    path:"/user",
+    name:"userhome",
+    component: () => import("./views/UserHomeScreen.vue")
   },
   {
-    path: "/profile",
-    name: "profile",
-    component: () => import("./views/Profile.vue"),
+    path: "/survey/:id",
+    name: "survey",
+    component: () => import("./views/TrackQuestions.vue"),
+    props: true
+  },
+  {
+    path: "/createSurvey",
+    name: "createsurvey",
+    component: () => import('./views/CreateSurvey.vue') 
+  },
+  {
+    path: "/createQuestion",
+    name: "createquestion",
+    component: () => import('./views/CreateQuestions.vue') 
   }
 ];
 const router = createRouter({
@@ -31,7 +42,7 @@ router.beforeEach((to, from) => {
   console.log(to.name);
   if (isUsersLogged() && (to.name == "home" || to.name == "login")) {
     console.log("redirecting")
-    return "/profile"; 
+    return "/user"; 
   }
   return true
 })

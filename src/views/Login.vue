@@ -65,9 +65,12 @@ export default {
         this.loading = false;
         localStorage.setItem("token", response.data.accessToken);
           localStorage.setItem("username", response.data.username);
+          localStorage.setItem("userId",response.data.id);
+          localStorage.setItem("isAdmin",response.data.isAdmin);
           this.emitter.emit("logged", "User LoggedIn");
+          this.emitter.emit("isAdmin","Admin")
           this.$router.push({
-            name: "profile"
+            name: "userhome"
           });
       },error=>{
         console.log(error);
