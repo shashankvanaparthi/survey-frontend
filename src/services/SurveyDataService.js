@@ -19,6 +19,11 @@ class SurveyDataService{
         return http.get("/survey/user/"+userId)
     }
 
+    getSurveyForId(surveyId,userId){
+        console.log("In getSurveyForId")
+        return http.get("/survey/"+surveyId,{userId:userId});
+    }
+
     deleteSurvey(surveyId){
         console.log("Delete Survey is called");
         return http.delete("/survey/"+surveyId);
