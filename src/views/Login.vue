@@ -58,21 +58,21 @@ export default {
   methods: {
     handleLogin(user) {
       this.loading = true;
-      console.log("In handle login ",user);
-      
-      UserDataService.login(user).then(response=>{
+      console.log("In handle login ", user);
+
+      UserDataService.login(user).then(response => {
         console.log(response);
         this.loading = false;
         localStorage.setItem("token", response.data.accessToken);
-          localStorage.setItem("username", response.data.username);
-          localStorage.setItem("userId",response.data.id);
-          localStorage.setItem("isAdmin",response.data.isAdmin);
-          this.emitter.emit("logged", "User LoggedIn");
-          this.emitter.emit("isAdmin","Admin")
-          this.$router.push({
-            name: "userhome"
-          });
-      },error=>{
+        localStorage.setItem("username", response.data.username);
+        localStorage.setItem("userId", response.data.id);
+        localStorage.setItem("isAdmin", response.data.isAdmin);
+        this.emitter.emit("logged", "User LoggedIn");
+        this.emitter.emit("isAdmin", "Admin")
+        this.$router.push({
+          name: "userhome"
+        });
+      }, error => {
         console.log(error);
         this.loading = false;
         this.message = error.response.data.message

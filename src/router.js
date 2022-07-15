@@ -17,9 +17,14 @@ const routes = [
     component: () => import("./views/UserHomeScreen.vue")
   },
   {
+    path: "/profile",
+    name: "profile",
+    component: () => import("./views/Profile.vue")
+  },
+  {
     path: "/survey/:id",
     name: "survey",
-    component: () => import("./views/TrackQuestions.vue"),
+    component: () => import("./views/QuestionsList.vue"),
     props: true
   },
   {
