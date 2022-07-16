@@ -34,9 +34,14 @@
               Edit
             </v-btn>
 
+            <v-btn color="deep-purple lighten-2" text @click="shareSurvey(survey.id)">
+              Share
+            </v-btn>
+
             <v-btn color="danger lighten-2" text @click="deleteSurvey(survey.id)">
               Delete
             </v-btn>
+
           </v-card-actions>
         </v-card>
       </template>
@@ -69,6 +74,29 @@
       </v-card>
     </v-dialog>
   </v-container>
+
+  <template>
+  <div class="text-center">
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="2000"
+    >
+      Please use the following link to share the Survey: {{ shareSurveyLink }}
+
+      <template v-slot:actions>
+        <v-btn
+          color="blue"
+          variant="text"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+  </div>
+</template>
+
+
 </template>
     
 <script>
@@ -79,7 +107,9 @@ export default {
     return {
       surveys: [],
       dialog: false,
+      snackbar: false,
       searchKey: "",
+      shareSurveyLink:"",
       selectedSurveyToEdit: null,
       survey: {
         title: "",
@@ -125,6 +155,14 @@ export default {
           alert("Something went wrong while deleting survey");
         }
       );
+    },
+
+    shareSurvey(surveyId){
+      console.log("Sharing Survey...")
+      console.log(window.location.origin)
+      const shareLink = window.location.origin+"/survey/share/"+surveyId
+      this.shareSurveyLink=shareLink
+      this.snackbar=true
     },
 
     editSurvey(survey) {
