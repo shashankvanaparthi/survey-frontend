@@ -17,9 +17,20 @@ const routes = [
     component: () => import("./views/UserHomeScreen.vue")
   },
   {
+    path:"/createUser",
+    name:"createUser",
+    component: () => import("./views/CreateUser.vue")
+
+  },
+  {
     path: "/profile",
     name: "profile",
     component: () => import("./views/Profile.vue")
+  },
+  {
+    path:"/manageUsers",
+    name:"manageUsers",
+    component: () => import("./views/ManagesUsers.vue")
   },
   {
     path: "/survey/:id",

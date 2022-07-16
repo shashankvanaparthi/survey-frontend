@@ -40,6 +40,11 @@
       <v-toolbar-items v-if="isAdmin === true">
         <v-btn variant="text" @click="$router.push('/createUser')"> Create User </v-btn>
       </v-toolbar-items>
+
+      <v-toolbar-items v-if="isAdmin === true">
+        <v-btn variant="text" @click="$router.push('/manageUsers')"> Manage Users </v-btn>
+      </v-toolbar-items>
+
       <v-toolbar-items>
         <v-btn variant="text" @click="signOut"> Signout </v-btn>
       </v-toolbar-items>

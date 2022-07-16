@@ -144,25 +144,6 @@ export default {
                 alert("Track Deletion Failed")
 
             })
-            // TrackDataService.deleteTrack(trackId).then(
-            //     (res) => {
-            //         const userId = localStorage.userId;
-            //         this.getAllTracks(userId).then(
-            //             (res) => {
-            //                 this.trackList = res;
-            //                 console.log(res);
-            //             },
-            //             (err) => {
-            //                 console.log(err);
-            //                 alert("Something went wrong, please refresh the page")
-            //             }
-            //         );
-            //     },
-            //     (error) => {
-            //         console.log(error);
-            //         alert("Track Deletion Failed")
-            //     }
-            // );
         },
 
         addQuestion() {
