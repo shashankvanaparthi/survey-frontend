@@ -22,6 +22,14 @@ class UserDataService{
         return http.put("/user/"+user.id,{user:user})
     }
 
+    getAllUsers(){
+        return http.get("/user/all")
+    }
+
+    deleteUser(userId){
+        return http.delete("/user/"+userId);
+    }
+
 }
 
 export default new UserDataService()
