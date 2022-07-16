@@ -39,6 +39,14 @@ const routes = [
     props: true
   },
   {
+    path: "/survey/share/:id",
+    name: "shareSurvey",
+    component: () => import("./views/Questions.vue"),
+    meta:{
+      hideNavBar:true
+    }
+  },
+  {
     path: "/createSurvey",
     name: "createsurvey",
     component: () => import('./views/CreateSurvey.vue') 

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar v-if="isLogged === false">
+    <v-app-bar v-if="!$route.meta.hideNavBar && isLogged === false">
       <v-app-bar-title>
         <v-btn variant="text" @click="$router.push('/')"> Survey </v-btn>
       </v-app-bar-title>
@@ -10,7 +10,7 @@
       </v-toolbar-items>
     </v-app-bar>
 
-    <v-app-bar v-if="isLogged === true">
+    <v-app-bar v-if="!$route.meta.hideNavBar && isLogged === true">
       <v-app-bar-title>
         <v-btn variant="text" @click="$router.push('/')"> Survey </v-btn>
       </v-app-bar-title>
