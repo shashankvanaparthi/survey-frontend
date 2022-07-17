@@ -1,6 +1,10 @@
     <template>
     <v-container>
-        <v-form ref="form" v-model="valid" lazy-validation>
+        <v-row v-if="questions.length==0">
+            <h4>No Questions are present in thsi Survey, Please wait till the Creator add's Some questions</h4>
+        </v-row>
+        <v-row v-else>
+             <v-form ref="form" v-model="valid" lazy-validation>
             <v-row v-for="(question, index) in questions" :key="question.id">
                 <v-col v-if="question.questionType == 'CHOICE'">
                     <span>
@@ -37,6 +41,7 @@
                 </v-col>
             </v-row>
         </v-form>
+        </v-row>
     </v-container>
 </template>
 <script>
