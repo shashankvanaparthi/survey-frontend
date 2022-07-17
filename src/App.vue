@@ -42,6 +42,10 @@
       </v-toolbar-items>
 
       <v-toolbar-items v-if="isAdmin === true">
+        <v-btn variant="text" @click="$router.push('/reports')"> Reports </v-btn>
+      </v-toolbar-items>
+
+      <v-toolbar-items v-if="isAdmin === true">
         <v-btn variant="text" @click="$router.push('/manageUsers')"> Manage Users </v-btn>
       </v-toolbar-items>
 
@@ -49,16 +53,16 @@
         <v-btn variant="text" @click="signOut"> Signout </v-btn>
       </v-toolbar-items>
       <v-toolbar-items class="p-2">
-        <a class="nav-link" @click="goProfile" style="cursor: pointer;"  aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link" @click="goProfile" style="cursor: pointer;" aria-haspopup="true" aria-expanded="false">
           <img src="https://placeimg.com/50/50/any" class="rounded-circle z-depth-0" alt="avatar image" height="30">
         </a>
       </v-toolbar-items>
     </v-app-bar>
 
     <v-main>
-      <div class="container-fluid">
-        <router-view class="mt-3" />
-      </div>
+      <!-- <div class="container-fluid"> -->
+        <router-view />
+      <!-- </div> -->
     </v-main>
   </v-app>
 

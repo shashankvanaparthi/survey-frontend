@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div class="col-md-6 mx-auto">
+  <div class="container mt-4">
+    <div class="col-md-5 mx-auto">
       <div class="card card-container p-3">
         <div class="mb-2">
           <h3>Login Form</h3>

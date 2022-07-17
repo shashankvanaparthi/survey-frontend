@@ -11,7 +11,7 @@ class SurveyDataService{
     }
 
     getAllSurveys(){
-        
+        return http.get("/survey/all/")
     }
 
     getAllSurveysForUser(userId){

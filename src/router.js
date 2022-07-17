@@ -55,6 +55,11 @@ const routes = [
     path: "/createQuestion",
     name: "createquestion",
     component: () => import('./views/CreateQuestions.vue') 
+  },
+  {
+    path:"/reports",
+    name:"reports",
+    component: () => import('./views/ReportsView.vue')
   }
 ];
 const router = createRouter({
