@@ -64,6 +64,9 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
   console.log(to.name);
+  if(to.name=="shareSurvey"){
+    return true;
+  }
   if(!isUsersLogged() && to.name!="home"){
     if(to.name=="login") return true;
     return "/login";
