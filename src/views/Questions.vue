@@ -1,7 +1,10 @@
     <template>
     <v-container>
-        <v-row v-if="questions.length==0">
-            <h4>No Questions are present in thsi Survey, Please wait till the Creator add's Some questions</h4>
+        <v-row v-if="surveyNotFound">
+            <h4>Sorry, Please check the survey link and try again!..</h4>
+        </v-row>
+        <v-row v-if="questions.length==0 && !surveyNotFound">
+            <h4>No Questions are present in this Survey, Please wait till the Creator add's Some questions</h4>
         </v-row>
         <v-row v-else>
              <v-form ref="form" v-model="valid" lazy-validation>
@@ -49,13 +52,16 @@ import SurveyDataService from '@/services/SurveyDataService';
 export default {
     data() {
         return {
-            questions: []
+            questions: [],
+            surveyNotFound:false
         }
     },
     methods: {
         async getAllQuestions(surveyId) {
             const userId = localStorage.userId;
             const questions = await SurveyDataService.getSurveyForId(surveyId, userId);
+            console.log("$$$$")
+            console.log(questions);
             return questions.data;
         }
     },
@@ -65,6 +71,7 @@ export default {
             console.log(res);
             this.questions = res.questions;
         }, (err) => {
+            this.surveyNotFound=true;
             console.log(err);
         });
     },
