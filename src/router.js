@@ -60,6 +60,11 @@ const routes = [
     path:"/reports",
     name:"reports",
     component: () => import('./views/ReportsView.vue')
+  },
+  {
+    path:"/reports/:id",
+    name:"surveyReport",
+    component: () => import('./views/Report.vue')
   }
 ];
 const router = createRouter({

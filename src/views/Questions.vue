@@ -14,11 +14,11 @@
                 <v-card-text v-if="questions.length != 0 && !surveyNotFound">
                     <v-form ref="form" v-model="valid" lazy-validation>
                         <v-col>
-                            <v-text-field v-model="first" label="Name" variant="outlined" shaped></v-text-field>
+                            <v-text-field v-model="this.form.name" label="Name" variant="outlined" shaped></v-text-field>
                         </v-col>
 
                         <v-col>
-                            <v-text-field v-model="first" label="Email" variant="outlined" shaped></v-text-field>
+                            <v-text-field v-model="this.form.email" label="Email" variant="outlined" shaped></v-text-field>
                         </v-col>
 
                         <v-row v-for="(question, index) in questions" :key="question.id">
@@ -27,9 +27,9 @@
                                     {{ index + 1 }}.
                                     {{ question.question }}
                                 </span>
-                                <v-radio-group>
+                                <v-radio-group v-model="this.form.answers[index].answer">
                                     <v-radio v-for="(option) in question.options" :key="option.id"
-                                        :label="`${option.value}`" :value="option.id"></v-radio>
+                                        :label="`${option.value}`" :value="option.value"></v-radio>
                                 </v-radio-group>
                             </v-col>
                             <v-col v-if="question.questionType == 'BOOLEAN'">
@@ -37,9 +37,9 @@
                                     {{ index + 1 }}.
                                     {{ question.question }}
                                 </span>
-                                <v-radio-group>
+                                <v-radio-group v-model="this.form.answers[index].answer">
                                     <v-radio v-for="(option) in question.options" :key="option.id"
-                                        :label="`${option.value == '1' ? 'True' : 'False'}`" :value="option.id">
+                                        :label="`${option.value == '1' ? 'True' : 'False'}`" :value="`${option.value == '1' ? 'True' : 'False'}`">
                                     </v-radio>
                                 </v-radio-group>
                             </v-col>
@@ -51,7 +51,7 @@
                                 <div class="container mt-3">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <v-slider thumb-label="always" track-color="grey" min="0" max="5" :step="1">
+                                            <v-slider v-model="this.form.answers[index].answer" thumb-label="always" track-color="grey" min="0" max="5" :step="1">
                                             </v-slider>
                                         </div>
                                     </div>
@@ -61,7 +61,7 @@
                     </v-form>
                 </v-card-text>
                 <v-card-actions v-if="questions.length != 0 && !surveyNotFound">
-                    <v-btn color="primary">Submit</v-btn>
+                    <v-btn @click="submitReport" color="primary">Submit</v-btn>
                 </v-card-actions>
             </v-card>
         </v-container>
@@ -69,10 +69,17 @@
 </template>
 <script>
 import SurveyDataService from '@/services/SurveyDataService';
+import ReportsDataService from '@/services/ReportsDataService'
 export default {
     data() {
         return {
             questions: [],
+            form:{
+                name:"",
+                email:"",
+                surveyId:null,
+                answers:[]
+            },
             surveyNotFound: false,
             surveyDescription: "",
             surveyTitle: "",
@@ -86,11 +93,32 @@ export default {
             const questions = await SurveyDataService.getSurveyForId(surveyId, userId);
             console.log("$$$$")
             console.log(questions);
+            for(let i=0;i<questions.data.questions.length;i++){
+                console.log("Hello")
+                this.form.answers.push({"questionId":questions.data.id,"answer":null})
+            }
             return questions.data;
+        },
+        clearForm(){
+            this.form.name = "";
+            this.form.email = "";
+            for(let i=0;i<this.form.answers.length;i++){
+                this.form.answers[i].answer = null;
+            }
+        },
+        submitReport(){
+            ReportsDataService.saveReport(this.form).then(res=>{
+                alert("Thanks for submitting the survey");
+                this.clearForm();
+            },error=>{
+                alert("There was a problem while submitting the survey, Please Try again later");
+            })
         }
+
     },
     created() {
         const surveyId = this.$route.params.id;
+        this.form.surveyId = surveyId
         this.getAllQuestions(surveyId).then((res) => {
             console.log(res);
             this.surveyTitle = res.title;
