@@ -14,6 +14,12 @@ class SurveyDataService{
         return http.get("/survey/all/")
     }
 
+    getAllSurveysForReports(userId){
+        console.log("&&&&&&&&&&&&&&&&&")
+        console.log(userId)
+        return http.get("/surveyForReports",{params:{userId:userId}})
+    }
+
     getAllSurveysForUser(userId){
         console.log("In getAllSurveys of user is called")
         return http.get("/survey/user/"+userId)

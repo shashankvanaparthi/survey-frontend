@@ -46,11 +46,13 @@ export default {
     },
     methods: {
         async getAllSurveys() {
-            const surveys = await SurveyDataService.getAllSurveys()
+            const userId = localStorage.userId
+            const surveys = await SurveyDataService.getAllSurveysForReports(userId)
             return surveys.data
         },
         viewReport(surveyId){
             console.log("View Survey is clicked for surveyId:"+surveyId)
+            this.$router.push("/reports/"+surveyId)
         }
     },
     created() {

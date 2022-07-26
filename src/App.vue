@@ -41,7 +41,7 @@
         <v-btn variant="text" @click="$router.push('/createUser')"> Create User </v-btn>
       </v-toolbar-items>
 
-      <v-toolbar-items v-if="isAdmin === true">
+      <v-toolbar-items>
         <v-btn variant="text" @click="$router.push('/reports')"> Reports </v-btn>
       </v-toolbar-items>
 
