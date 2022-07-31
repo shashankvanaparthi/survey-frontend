@@ -14,11 +14,13 @@
                 <v-card-text v-if="questions.length != 0 && !surveyNotFound">
                     <v-form ref="form" v-model="valid" lazy-validation>
                         <v-col>
-                            <v-text-field v-model="this.form.name" label="Name" variant="outlined" shaped></v-text-field>
+                            <v-text-field v-model="this.form.name" label="Name" variant="outlined" shaped>
+                            </v-text-field>
                         </v-col>
 
                         <v-col>
-                            <v-text-field v-model="this.form.email" label="Email" variant="outlined" shaped></v-text-field>
+                            <v-text-field v-model="this.form.email" label="Email" variant="outlined" shaped>
+                            </v-text-field>
                         </v-col>
 
                         <v-row v-for="(question, index) in questions" :key="question.id">
@@ -27,9 +29,9 @@
                                     {{ index + 1 }}.
                                     {{ question.question }}
                                 </span>
-                                <v-radio-group v-model="this.form.answers[index].answer">
+                                <v-radio-group v-model="this.form.answers[index].optionId">
                                     <v-radio v-for="(option) in question.options" :key="option.id"
-                                        :label="`${option.value}`" :value="option.value"></v-radio>
+                                        :label="`${option.value}`" :value="option.id"></v-radio>
                                 </v-radio-group>
                             </v-col>
                             <v-col v-if="question.questionType == 'BOOLEAN'">
@@ -37,9 +39,9 @@
                                     {{ index + 1 }}.
                                     {{ question.question }}
                                 </span>
-                                <v-radio-group v-model="this.form.answers[index].answer">
+                                <v-radio-group v-model="this.form.answers[index].optionId">
                                     <v-radio v-for="(option) in question.options" :key="option.id"
-                                        :label="`${option.value == '1' ? 'True' : 'False'}`" :value="`${option.value == '1' ? 'True' : 'False'}`">
+                                        :label="`${option.value == '1' ? 'True' : 'False'}`" :value="option.id">
                                     </v-radio>
                                 </v-radio-group>
                             </v-col>
@@ -51,7 +53,9 @@
                                 <div class="container mt-3">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <v-slider v-model="this.form.answers[index].answer" thumb-label="always" track-color="grey" min="0" max="5" :step="1">
+                                            <v-slider 
+                                                v-model="this.form.answers[index].optionId"
+                                                thumb-label="always" track-color="grey" min="0" max="5" :step="1">
                                             </v-slider>
                                         </div>
                                     </div>
@@ -74,11 +78,11 @@ export default {
     data() {
         return {
             questions: [],
-            form:{
-                name:"",
-                email:"",
-                surveyId:null,
-                answers:[]
+            form: {
+                name: "",
+                email: "",
+                surveyId: null,
+                answers: []
             },
             surveyNotFound: false,
             surveyDescription: "",
@@ -93,20 +97,30 @@ export default {
             const questions = await SurveyDataService.getSurveyForId(surveyId, userId);
             console.log("$$$$")
             console.log(questions);
-            for(let i=0;i<questions.data.questions.length;i++){
-                console.log("Hello")
-                this.form.answers.push({"questionId":questions.data.id,"answer":null})
+            for (let i = 0; i < questions.data.questions.length; i++) {
+                this.form.answers.push({ "questionId": questions.data.questions[i].id, "optionId": null ,"questionType":questions.data.questions[i].questionType , options:questions.data.questions[i].options})
             }
             return questions.data;
         },
-        clearForm(){
+        clearForm() {
             this.form.name = "";
             this.form.email = "";
-            for(let i=0;i<this.form.answers.length;i++){
-                this.form.answers[i].answer = null;
+            for (let i = 0; i < this.form.answers.length; i++) {
+                this.form.answers[i].optionId = null;
             }
         },
-        submitReport(){
+        submitReport() {
+            console.log("##################")
+            for(let i=0;i<this.form.answers.length;i++){
+                if(this.form.answers[i].questionType=="SCALE"){
+                    for(let j=0;j<this.form.answers[i].options.length;j++){
+                        if(this.form.answers[i].options[j].value==this.form.answers[i].optionId){
+                            this.form.answers[i].optionId = this.form.answers[i].options[j].id;
+                        }
+                    }
+                }
+            }
+            console.log(this.form)
             ReportsDataService.saveReport(this.form).then(res=>{
                 alert("Thanks for submitting the survey");
                 this.clearForm();
@@ -128,15 +142,15 @@ export default {
             this.surveyNotFound = true;
             console.log(err);
         });
-    },
+    }
 }
 </script>
 
 
 <style>
 .background {
-  width: 100vw;
-  min-height:100vh;
-  background-color: #808080;
+    width: 100vw;
+    min-height: 100vh;
+    background-color: #808080;
 }
 </style>

@@ -11,6 +11,11 @@ class ReportsDataService{
         console.log("In getReport");
         return http.get("/getReport/"+surveyId)
     }
+
+    getAllAnswers(){
+        console.log("In getAllAnswers")
+        return http.get("/getAllAnswers")
+    }
 }
 
 export default new ReportsDataService()

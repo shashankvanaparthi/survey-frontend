@@ -36,6 +36,7 @@
                                 <th scope="col">SNo</th>
                                 <th scope="col">Question</th>
                                 <th scope="col">Answer</th>
+                                <th scope="col">Percentage</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -43,7 +44,8 @@
                                 <tr>
                                     <th scope="row">{{ index+1 }}</th>
                                     <td>{{ answer.question.question }}</td>
-                                    <td>{{ answer.answer }}</td>
+                                    <td>{{ answer.question.questionType==="BOOLEAN"?answer.answer.value==1?"True":"False":answer.answer.value }}</td>
+                                    <td>{{getPercentage(answer.questionId,answer.optionId)}}</td>
                                 </tr>
                             </template>
                         </tbody>
@@ -64,13 +66,33 @@ export default {
         return {
             reports: [],
             reportToView: null,
+            allAnswers:[],
             dialog:false
         }
     },
     methods: {
         async getReportDataForSurvey(surveyId) {
             const reports = await ReportsDataService.getReport(surveyId);
+            const temp = [];
+            for(let i=0;i<reports.data.length;i++){
+                Array.prototype.push.apply(temp,reports.data[i].answers)
+            }
+            this.allAnswers = temp
             return reports.data;
+        },
+        getPercentage(questionId,optionId){
+            const totalUsers = this.reports.length;
+            var count = 0;
+            for(let i=0;i<this.allAnswers.length;i++){
+                if(this.allAnswers[i].questionId==questionId && this.allAnswers[i].optionId==optionId){
+                    count++;
+                }
+            }
+            console.log("RTYUITRDFU")
+            console.log(count)
+            console.log("In getPercentage");
+            var percentage = count==0?0:(count*100)/totalUsers;
+            return percentage.toFixed(2);
         },
         viewReport(report) {
             this.reportToView = report;
@@ -81,6 +103,7 @@ export default {
         const surveyId = this.$route.params.id;
         console.log(surveyId)
         this.getReportDataForSurvey(surveyId).then(res => {
+            console.log("##########")
             console.log(res);
             this.reports = res
         }, err => {

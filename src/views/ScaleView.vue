@@ -1,8 +1,10 @@
 <template>
     <v-container>
-        <v-row v-for="(answer, index) in answers" :key="index">
+        <v-row>
             <v-col>
-                {{ answer.name }} {{answer.value}}
+                MIN: 0
+                <br/>
+                MAX: 5
             </v-col>
             <!-- <v-col lg="{6}">
                 <v-slider v-model="answer.value" :step="1" thumb-label :min="0" :max="5" :label="answer.value">
@@ -21,8 +23,12 @@ export default {
         }
     },
     created() {
-        this.answers.push({ value: 0, name: "Min:" })
-        this.answers.push({ value: 5, name: "Max:" })
+        this.answers.push({ value: 0, name: "Zero" })
+        this.answers.push({ value: 1, name: "One" })
+        this.answers.push({ value: 2, name: "Two" })
+        this.answers.push({ value: 3, name: "Three" })
+        this.answers.push({ value: 4, name: "Four" })
+        this.answers.push({ value: 5, name: "Five" })
     }
 }
 </script>
